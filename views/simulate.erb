@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Simulating Coffee Level Updates</h1>
+<table id="updates" border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>Italian Level</th>
+		<th>Hair Bender Level</th>
+		<th>Decaf Level</th>
+	</tr>
+</table>
+
+<script>
+$(function(){
+	
+	var italianLevel = 100;
+	var hairbenderLevel = 80;
+	var decafLevel = 80;
+	
+	setInterval(function(){
+		postData = {
+			'italian': italianLevel,
+			'hairbender': hairbenderLevel,
+			'decaf': decafLevel
+		};
+		
+		$.post('/update-levels', postData,
+			function(data) {
+				$('#updates').append('<tr><td>' + italianLevel + '</td><td>' + hairbenderLevel + '</td><td>' + decafLevel + '</td></tr>');
+			}
+		);
+		
+		//update fake levels for next time
+		if (italianLevel <= 0) {
+			italianLevel = 100
+		} else {
+			italianLevel = italianLevel - 10;
+		}
+		if (hairbenderLevel <= 0) {
+			hairbenderLevel = 100
+		} else {
+			hairbenderLevel = hairbenderLevel - 15;
+		}
+		if (decafLevel <= 0) {
+			decafLevel = 100
+		} else {
+			decafLevel = decafLevel - 5;
+		}
+		
+	}, 7000); //every 7 seconds
+});
+</script>
+</body>
+</html>
