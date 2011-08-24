@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>BuzzHawk</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="/highcharts.js"></script>
+</head>
+<body>
+
+<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+
+	var chart;
+	
+	$(document).ready(function() {
+		
+		chart = new Highcharts.Chart({
+			chart: {
+				renderTo: 'container',
+				defaultSeriesType: 'column',
+				events: {
+	                load: requestData
+	            }
+			},
+			title: {
+				text: 'Evanta Coffee Levels'
+			},
+			yAxis: {
+				min: 0,
+				max: 100,
+				title: {
+					text: 'Percentage'
+				}
+			},
+			credits: {
+				enabled: false
+			},
+		    series: [
+			    {
+					name: 'Italian',
+					data: []
+					// data: [100]
+				},
+				{
+					name: 'Hair Bender',
+					data: []
+					// data: [80]
+				},
+				{
+					name: 'Decaf',
+					data: []
+					// data: [90]
+				}
+			]
+		});
+		
+		function requestData() {
+		    $.ajax({
+		        url: '/get-current-levels',
+		        success: function(data) {
+		            var series = chart.series[0];
+		            series.addPoint({name: 'italian', y: data.italian}, true);
+		            setTimeout(requestData, 5000);
+		        },
+		        cache: false
+		    });
+		}
+		
+	});
+		
+</script>
+</body>
+</html>
