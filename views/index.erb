@@ -3,41 +3,86 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>BuzzHawk</title>
+	<link rel="stylesheet/less" type="text/css" href="/styles.less">
+	<script src="http://lesscss.googlecode.com/files/less-1.0.18.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<style>
-		.coffee_pot {
-			width: 80px;
-			height: 300px;
-			background-color: #ccc;
-		}
-		.coffee_pot .level {
-			background-color: #f00;
-			vertical-align: bottom;
-		}
-	</style>
+
 </head>
 <body>
+
+
+	<div id="italian">
+		<div class="hc3">
+	<div class='coffeeLevel1'>
+	</div>
+	<img src="images/top_animation.gif"style="margin-top:-40px;">
+		</div>
+	</div>
+		
 	
-<table cellspacing="10" align="center">
-	<tr>
-		<td id="italian" class="coffee_pot" valign="bottom">
-			<div class="level"></div>
-		</td>
-		<td id="hairbender" class="coffee_pot" valign="bottom">
-			<div class="level"></div>
-		</td>
-		<td id="decaf" class="coffee_pot" valign="bottom">
-			<div class="level"></div>
-		</td>
-	</tr>
-	<tr>
-		<td>Italian</td>
-		<td>Hair Bender</td>
-		<td>Decaf</td>
-	</tr>
-</table>
+	<div id="hb">
+		<div class="hc3">
+	<div class='coffeeLevel2'>
+	</div>
+	<img src="images/top_animation.gif"style="margin-top:-40px;">
+		</div>
+	</div>
+	
+	
+	<div id="decaf">
+		<div class="hc3">
+	<div class='coffeeLevel3'>
+	</div>
+	<img src="images/top_animation.gif"style="margin-top:-40px;">
+		</div>
+	</div>
+
+	<br><br>
+	
+	
+	<div id="results">
+		
+		
+		<div class="result1"></div>
+		
+		<div class="result2"></div>
+	
+		<div class="result3"></div>
+			
+			
+	</div>
+
 
 <script type="text/javascript">
+	function updateBars() {
+		
+
+		var milliseconds = 2000;
+		
+	    $.ajax({
+	        url: '/get-current-levels',
+	        success: function(levels) {
+		
+						var coffee1 = (100 - levels.italian)*10;
+						var coffee2 = (100 - levels.hairbender)*10;
+						var coffee3 = (100 - levels.decaf)*10;
+						
+							$('.coffeeLevel1').animate({height: coffee1}, milliseconds);
+							$('.coffeeLevel2').animate({height: coffee2}, milliseconds);
+							$('.coffeeLevel3').animate({height: coffee3}, milliseconds);
+							setTimeout(updateBars, 8000);
+							$('.result1').html("italian: " + levels.italian + "%");
+							$('.result2').html("hairbender: " + levels.hairbender + "%");
+							$('.result3').html("decaf: " + levels.decaf + "%");
+							
+	        },
+	        cache: false
+	    });
+	}
+	updateBars();
+</script>
+
+<!-- <script type="text/javascript">
 	function updateBars() {
 	    $.ajax({
 	        url: '/get-current-levels',
@@ -51,6 +96,6 @@
 	    });
 	}
 	updateBars();
-</script>
+</script> -->
 </body>
 </html>
